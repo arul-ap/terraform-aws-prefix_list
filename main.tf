@@ -39,9 +39,10 @@ resource "aws_ram_resource_association" "pl" {
   resource_share_arn = aws_ram_resource_share.pl[each.key].id
 }
 
-resource "aws_ram_principal_association" "pl" {
+module "pl_share" {
+  source = "./modules/pl_share"
   for_each               = local.pl_share
-  resource_share_arn = aws_ram_resource_share.pl[each.key].id
-  principal          = each.value.pl_share_principal_list
+  share_arn = aws_ram_resource_share.pl[each.key].id
+  principal         = each.value.pl_share_principal_list
 }
 
