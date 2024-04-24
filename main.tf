@@ -35,8 +35,8 @@ resource "aws_ram_resource_share" "pl" {
 
 resource "aws_ram_resource_association" "pl" {
   for_each               = local.pl_share
-  resource_arn       = aws_ec2_managed_prefix_list.pl[each.key].id
-  resource_share_arn = aws_ram_resource_share.pl[each.key].id
+  resource_arn       = aws_ec2_managed_prefix_list.pl[each.key].arn
+  resource_share_arn = aws_ram_resource_share.pl[each.key].arn
 }
 
 module "pl_share" {
