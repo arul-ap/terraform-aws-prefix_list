@@ -7,7 +7,7 @@ data "aws_region" "current" {}
 
 resource "aws_ec2_managed_prefix_list" "pl" {
   for_each = var.pl
-  name = "${local.name-prefix}-${each.key}"
+  name = "${local.name-prefix}-${each.key}-pl"
   address_family = each.value.address_family
   max_entries = each.value.max_entries
   dynamic "entry" {
@@ -17,4 +17,7 @@ resource "aws_ec2_managed_prefix_list" "pl" {
       description = entry.key
     }
   }
+  tags = merge(each.value.tags, {
+    Name = "${local.name-prefix}-${each.key}"
+  })
 }
