@@ -21,3 +21,27 @@ resource "aws_ec2_managed_prefix_list" "pl" {
     Name = "${local.name-prefix}-${each.key}"
   })
 }
+
+
+locals {
+  pl_share = {for k,v in var.pl: k => v if v.share != []}
+}
+resource "aws_ram_resource_share" "pl" {
+  for_each                     = local.pl_share
+  name                      = aws_ec2_managed_prefix_list.pl[each.key].id
+  allow_external_principals = false
+}
+
+
+resource "aws_ram_resource_association" "pl" {
+  for_each               = local.pl_share
+  resource_arn       = aws_ec2_managed_prefix_list.pl[each.key].id
+  resource_share_arn = aws_ram_resource_share.pl[each.key].id
+}
+
+resource "aws_ram_principal_association" "pl" {
+  for_each               = local.pl_share
+  resource_share_arn = aws_ram_resource_share.pl[each.key].id
+  principal          = each.value.pl_share_principal_list
+}
+

@@ -17,6 +17,7 @@ variable "pl" {
     address_family = optional(string,"IPv4")
     max_entries = number
     entries = map(string)
+    pl_share_principal_list = optional(list(string),[])
     tags = optional(map(string),{})
   }))
 }
