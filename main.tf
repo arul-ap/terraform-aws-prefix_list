@@ -24,7 +24,7 @@ resource "aws_ec2_managed_prefix_list" "pl" {
 
 
 locals {
-  pl_share = {for k,v in var.pl: k => v if v.pl_share_principal_list != []}
+  pl_share = {for k,v in var.pl: k => v if length(v.pl_share_principal_list) != 0}
 }
 resource "aws_ram_resource_share" "pl" {
   for_each                     = local.pl_share
