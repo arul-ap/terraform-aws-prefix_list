@@ -14,10 +14,10 @@ variable "env" {
 variable "pl" {
   description = "Prefix List with entries"
   type = map(object({
-    address_family = optional(string,"IPv4")
-    max_entries = number
-    entries = map(string)
-    pl_share_principal_list = optional(list(string),[])
-    tags = optional(map(string),{})
+    address_family          = optional(string, "IPv4")
+    max_entries             = number
+    entries                 = map(string)
+    pl_share_principal_list = optional(list(string), [])
+    tags                    = optional(map(string), {})
   }))
 }
